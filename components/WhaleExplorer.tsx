@@ -2,9 +2,11 @@
 
 import { useMemo, useState } from "react";
 import Filters from "./Filters";
+import LearnMorePanel from "./LearnMorePanel";
 import WhaleMap from "./WhaleMap";
 import { migrationRoutes } from "../data/migrationRoutes";
 import { speciesInfo } from "../data/species";
+import { whaleProfiles } from "../data/whaleProfiles";
 import { whaleSightings } from "../data/whaleSightings";
 import type { Season, WhaleSighting, WhaleSpecies } from "../types/whale";
 
@@ -13,6 +15,7 @@ export default function WhaleExplorer() {
   const [selectedSeason, setSelectedSeason] = useState<Season | "all">("all");
   const [showRoutes, setShowRoutes] = useState(true);
   const [focusSighting, setFocusSighting] = useState<WhaleSighting | null>(null);
+  const [learnMoreSpecies, setLearnMoreSpecies] = useState<WhaleSpecies | null>(null);
 
   const filteredSightings = useMemo(() => {
     return whaleSightings.filter((sighting) => {
@@ -55,6 +58,7 @@ export default function WhaleExplorer() {
         routes={filteredRoutes}
         showRoutes={showRoutes}
         focusSighting={focusSighting}
+        onLearnMore={(sighting) => setLearnMoreSpecies(sighting.species)}
       />
 
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[500] bg-gradient-to-b from-white/80 to-transparent p-4 md:inset-y-0 md:left-0 md:right-auto md:bg-gradient-to-r md:p-5">
@@ -71,6 +75,12 @@ export default function WhaleExplorer() {
           onSurprise={surpriseMe}
         />
       </div>
+
+      <LearnMorePanel
+        profile={learnMoreSpecies ? whaleProfiles[learnMoreSpecies] : null}
+        onClose={() => setLearnMoreSpecies(null)}
+      />
     </main>
   );
 }
+

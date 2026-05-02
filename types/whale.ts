@@ -41,3 +41,27 @@ export interface SpeciesInfo {
   color: string;
   funFact: string;
 }
+
+export interface SizeComparison {
+  label: string;
+  lengthMeters: number;
+  note: string;
+}
+
+export interface WhaleProfile {
+  species: WhaleSpecies;
+  commonName: string;
+  scientificName: string;
+  imageUrl: string;
+  imageAlt: string;
+  imageCredit: string;
+  lengthMeters: number;
+  weightTonnes: string;
+  shortIntro: string;
+  habitat: string;
+  diet: string;
+  familyLife: string;
+  childFriendlyFact: string;
+  comparisons: SizeComparison[];
+}
+

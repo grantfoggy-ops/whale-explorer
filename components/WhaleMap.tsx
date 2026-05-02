@@ -16,6 +16,7 @@ type WhaleMapProps = {
   routes: MigrationRoute[];
   showRoutes: boolean;
   focusSighting: WhaleSighting | null;
+  onLearnMore: (sighting: WhaleSighting) => void;
 };
 
 function FlyToSighting({ sighting }: { sighting: WhaleSighting | null }) {
@@ -39,7 +40,7 @@ function makeClusterIcon(cluster: { getChildCount: () => number }) {
   });
 }
 
-export default function WhaleMap({ sightings, routes, showRoutes, focusSighting }: WhaleMapProps) {
+export default function WhaleMap({ sightings, routes, showRoutes, focusSighting, onLearnMore }: WhaleMapProps) {
   const center: LatLngExpression = [18, 0];
   const markerIcons = useMemo<Record<string, L.DivIcon>>(() => {
     return Object.fromEntries(
@@ -101,7 +102,7 @@ export default function WhaleMap({ sightings, routes, showRoutes, focusSighting 
               position={[sighting.latitude, sighting.longitude]}
             >
               <Popup>
-                <WhalePopup sighting={sighting} />
+                <WhalePopup sighting={sighting} onLearnMore={() => onLearnMore(sighting)} />
               </Popup>
             </Marker>
           );
